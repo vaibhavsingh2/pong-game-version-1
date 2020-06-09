@@ -1,7 +1,8 @@
+
 var rand;
 var userPaddle, computerPaddle, computerScore, playerScore, gameState, ball,scoreSound, wall_hitSound, hitSound;
 var touches=0;
-
+var button2;
 
 function setup() {
   
@@ -11,9 +12,12 @@ createCanvas(
 );
 this.button=createButton('Start');
 this.button1=createButton('Reset')
+this.button2=createButton('DownButton')
+this.button3=createButton('UpButton')
+
 //create a user paddle sprite
 userPaddle = createSprite(window.innerWidth-40,200,10,70);
-userPaddle.density=1;
+
 //create a computer paddle sprite
 computerPaddle = createSprite(10,200,10,70);
 
@@ -50,18 +54,24 @@ function draw() {
     this.button.visible=true;
     this.button1.position(displayWidth/2,displayHeight/2);
     this.button1.hide();
-  
-  this.button.mousePressed(()=>{
+    this.button2.visible=0;
+    this.button2.hide();
+    this.button2.position(displayWidth/2,displayHeight/2);
+    this.button3.visible=0;
 
-    ball.velocityX = 8;
-    ball.velocityY = 8;
+    this.button3.hide();
+    this.button3.position(displayWidth/2,displayHeight/2-50);
+    this.button.mousePressed(()=>{
+
+    ball.velocityX = 6;
+    ball.velocityY = 6;
     gameState = "play";
  // }
  this.button.hide();
  
 });  
   //make the userPaddle move with the mouse
-  userPaddle.y = World.mouseY;
+  //userPaddle.y = World.mouseY;
   //if(mouseIsOver(canvas)){
     
   
@@ -94,7 +104,28 @@ function draw() {
     ball.x = ball.x - 5;
     ball.velocityX = -ball.velocityX;
   }
+  if(gameState==="play"){
+    this.button2.visible=true;
+    this.button2.show();
+    this.button3.visible=true;
+    this.button3.show();
 
+    this.button2.mousePressed(()=>{
+
+    //  ball.x = ball.x+50;
+      userPaddle.velocityY=8;
+   // }
+   
+  });
+  this.button3.mousePressed(()=>{
+
+    //  ball.x = ball.x+50;
+      userPaddle.velocityY=-8;
+   // }
+   
+  });  
+
+  }
   //make the ball bounce off the computer paddle
   if(ball.isTouching(computerPaddle)){
     //hitSound.play();
@@ -108,16 +139,23 @@ function draw() {
     //scoreSound.play();
 
   if (ball.x < 0) {
-      playerScore++;
+    rel();
+
+    playerScore++;
       this.button.show();
 
       touches=0;  
-  }
+
+    }
     else {
       computerScore++;
+      userPaddle.y=window.innerHeight/2;
+      userPaddle.velocityY=0;
       this.button.show();
+//..      rel();
     touches=0;
-    }
+
+  }
 
     ball.x = window.innerWidth/2;
     ball.y = window.innerHeight/2;
@@ -137,6 +175,12 @@ function draw() {
     //wall_hitSound.play();
   }
 
+  if (userPaddle.isTouching(edges[2]) || userPaddle.isTouching(edges[3])) {
+    userPaddle.bounceOff(edges[2]);
+    userPaddle.bounceOff(edges[3]);
+    //wall_hitSound.play();
+  }
+
   
   
     drawSprites();
@@ -145,11 +189,18 @@ function draw() {
 function hide(){
   this.button.hide();
   this.button1.hide();
-
+  this.button2.hide();
+  this.button3.hide();
 }
 
 function show(){
   this.button.show();
   this.button1.show();
+  this.button2.show();
+  this.button3.show();
+}
 
+function rel(){
+ console.log("si"); 
+      
 }
