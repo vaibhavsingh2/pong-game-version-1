@@ -16,7 +16,7 @@ this.button2=createButton('DownButton')
 this.button3=createButton('UpButton')
 
 //create a user paddle sprite
-userPaddle = createSprite(window.innerWidth-40,200,10,70);
+userPaddle = createSprite(window.innerWidth-40,window.innerHeight/2,10,70);
 
 //create a computer paddle sprite
 computerPaddle = createSprite(10,200,10,70);
